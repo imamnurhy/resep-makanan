@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:resep/pages/resep_detail_page.dart';
 import 'package:resep/providers/resep_provider.dart';
 
 class ResepPage extends StatefulWidget {
@@ -26,18 +27,20 @@ class _ResepPageState extends State<ResepPage> {
       body: Consumer<ResepProvider>(
         builder: (context, resepProvider, child) {
           return ListView.builder(
-            itemCount: resepProvider.resepModel.results.length,
+            itemCount: resepProvider.resepModel!.results.length,
             itemBuilder: (context, index) {
-              final recipe = resepProvider.resepModel.results[index];
+              final recipe = resepProvider.resepModel!.results[index];
               return GestureDetector(
-                // onTap: () => Navigator.of(context).push(
-                //   MaterialPageRoute(
-                //     builder: (context) => ResepDetailPage(
-                //       title: recipe.title,
-                //     ),
-                //   ),
-                // ),
-                onTap: () {},
+                onTap: () {
+                  resepProvider.getDetailResep(recipe.key);
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ResepDetailPage(title: recipe.title),
+                    ),
+                  );
+                },
                 child: Card(
                   elevation: 1.0,
                   margin: const EdgeInsets.all(8.0),
@@ -68,18 +71,6 @@ class _ResepPageState extends State<ResepPage> {
                             recipe.title,
                             style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
-                        ),
-
-                        // Jumlah Porsi
-                        Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: Text('Porsi : ${recipe.portion}'),
-                        ),
-
-                        // Waktu
-                        Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: Text('Waktu : ${recipe.times}'),
                         ),
                       ],
                     ),
