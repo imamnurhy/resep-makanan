@@ -2,12 +2,12 @@ class ResepDetailModel {
   ResepDetailModel({
     required this.method,
     required this.status,
-    this.results,
+    required this.results,
   });
 
   final String method;
   final bool status;
-  final Results? results;
+  final Results results;
 
   factory ResepDetailModel.fromJson(Map<String, dynamic> json) => ResepDetailModel(
         method: json["method"],
@@ -18,28 +18,28 @@ class ResepDetailModel {
 
 class Results {
   Results({
-    this.title,
-    this.thumb,
-    this.servings,
-    this.times,
-    this.dificulty,
-    this.author,
-    this.desc,
-    this.needItem,
-    this.ingredient,
-    this.step,
+    required this.title,
+    required this.thumb,
+    required this.servings,
+    required this.times,
+    required this.dificulty,
+    required this.author,
+    required this.desc,
+    required this.needItem,
+    required this.ingredient,
+    required this.step,
   });
 
-  final String? title;
-  final String? thumb;
-  final String? servings;
-  final String? times;
-  final String? dificulty;
-  final Author? author;
-  final String? desc;
-  final List<NeedItem>? needItem;
-  final List<String>? ingredient;
-  final List<String>? step;
+  final String title;
+  final String thumb;
+  final String servings;
+  final String times;
+  final String dificulty;
+  final Author author;
+  final String desc;
+  final List<NeedItem> needItem;
+  final List<String> ingredient;
+  final List<String> step;
 
   factory Results.fromJson(Map<String, dynamic> json) => Results(
         title: json["title"],

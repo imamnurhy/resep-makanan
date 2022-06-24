@@ -23,40 +23,39 @@ class _ResepDetailPageState extends State<ResepDetailPage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: ChangeNotifierProvider<ResepProvider>(
-        create: (context) => ResepProvider(),
-        child: Consumer<ResepProvider>(
-          builder: (context, resepProvider, child) {
-            final recipe = resepProvider.resepDetailModel?.results;
-
-            return Card(
-              elevation: 1.0,
-              margin: const EdgeInsets.all(8.0),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
+      body: Consumer<ResepProvider>(
+        builder: (context, resepProvider, child) {
+          final recipe = resepProvider.resepDetailModel!.results;
+          return Card(
+            elevation: 1.0,
+            margin: const EdgeInsets.all(8.0),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Gambar
-                    Image.network(
-                      recipe?.thumb ?? '',
-                      loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
-                        if (loadingProgress == null) return child;
-                        return Center(
-                          child: CircularProgressIndicator(
-                            value: loadingProgress.expectedTotalBytes != null
-                                ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
-                                : null,
-                          ),
-                        );
-                      },
-                    ),
+                    if (recipe.thumb.isNotEmpty)
+                      Image.network(
+                        recipe.thumb,
+                        loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return Center(
+                            child: CircularProgressIndicator(
+                              value: loadingProgress.expectedTotalBytes != null
+                                  ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+                                  : null,
+                            ),
+                          );
+                        },
+                      ),
 
                     // Judul
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        recipe?.title ?? '',
+                        recipe.title,
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -64,14 +63,26 @@ class _ResepDetailPageState extends State<ResepDetailPage> {
                     // Waktu
                     Padding(
                       padding: const EdgeInsets.all(4.0),
-                      child: Text('Waktu : ${recipe?.times}'),
+                      child: Text('Waktu : ${recipe.times}'),
+                    ),
+
+                    // Athour
+                    Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Text('Athour : ${recipe.author.user} \nPublish : ${recipe.author.datePublished}'),
+                    ),
+
+                    // Deskripsi
+                    Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Text('Ket : ${recipe.desc}', textAlign: TextAlign.justify),
                     ),
                   ],
                 ),
               ),
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
     );
   }

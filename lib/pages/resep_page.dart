@@ -32,14 +32,13 @@ class _ResepPageState extends State<ResepPage> {
               final recipe = resepProvider.resepModel!.results[index];
               return GestureDetector(
                 onTap: () {
-                  resepProvider.getDetailResep(recipe.key);
-
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => ResepDetailPage(title: recipe.title),
                     ),
                   );
+                  resepProvider.getDetailResep(recipe.key);
                 },
                 child: Card(
                   elevation: 1.0,
